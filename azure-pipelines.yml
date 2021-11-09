@@ -20,6 +20,6 @@ steps:
     location: 'West Europe'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/jlopezpa/azure-quickstart-templates/main/quickstarts/microsoft.keyvault/key-vault-create/azuredeploy.json'
-    csmParametersFileLink: 'https://raw.githubusercontent.com/jlopezpa/azure-quickstart-templates/main/quickstarts/microsoft.keyvault/key-vault-create/azuredeploy.parameters.json'
+    csmParametersFileLink: 'https://raw.githubusercontent.com/jlopezpa/azure-quickstart-templates/main/quickstarts/microsoft.keyvault/key-vault-create/deploymentParameters.json'
     deploymentMode: 'Incremental'
-    deploymentName: 'Deploymenkeydev'
+    deploymentOutputs: 'Pipelinekeyvault'
