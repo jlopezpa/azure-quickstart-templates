@@ -10,16 +10,16 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'myconnection0'
+    azureResourceManagerConnection: 'myconnection'
     subscriptionId: '2e39dc9c-a38f-475c-aa16-dfb68153287b'
     action: 'Create Or Update Resource Group'
-    resourceGroupName: 'ResourceGroupTest'
-    location: 'North Europe'
-    templateLocation: 'Linked artifact'
-    csmFile: 'https://github.com/jlopezpa/AzureStack-QuickStart-Templates/tree/main/101-vm-linux-create'
-    csmParametersFile: 'https://github.com/jlopezpa/AzureStack-QuickStart-Templates/blob/main/101-vm-linux-create/azuredeploy.parameters.json'
+    resourceGroupName: 'prueba123'
+    location: 'West Europe'
+    templateLocation: 'URL of the file'
+    csmFileLink: 'https://raw.githubusercontent.com/jlopezpa/azure-quickstart-templates/main/quickstarts/microsoft.keyvault/key-vault-create/azuredeploy.json'
+    csmParametersFileLink: 'https://raw.githubusercontent.com/jlopezpa/azure-quickstart-templates/main/quickstarts/microsoft.keyvault/key-vault-create/azuredeploy.parameters.json'
     deploymentMode: 'Incremental'
+    deploymentName: 'Deploymenkeydev'
