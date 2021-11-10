@@ -1,0 +1,54 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "resource-group": {
+            "value": "ResourceGroupTest"
+        },
+        "masterVmSize": {
+            "value": "Standard_D8s_v3"
+        },
+        "workerVmSize": {
+            "value": "Standard_D4s_v3"
+        },
+        "workerVmDiskSize": {
+            "value": 128
+        },
+        "workerCount": {
+            "value": 3
+        },
+        "clusterName": {
+            "value": "clusterocpdev1"
+        },
+        "domain": {
+            "value": "com"
+        },
+        "location": {
+            "value": "westeurope"
+        },
+        "aadClientId": {
+            "value": "2ea61c03-4f31-4439-afad-0c538320cd4a"
+        },
+        "aadObjectId": {
+            "value": "2c114d4f-535f-4396-a6d5-5aad22a870c0"
+        },
+        "aadClientSecret": {
+            "value": null
+        },
+        "apiServerVisibility": {
+            "value": "Public"
+        },
+        "ingressVisibility": {
+            "value": "Public"
+        },
+        "rpObjectId": {
+            "value": "b285d9f6-98ce-4602-aa50-3a2dd30b95f0"
+        },
+        "pullSecret": {
+            "value": null
+        },
+        "tagsByResource": {
+            "value": {}
+        }
+    }
+}
