@@ -1,0 +1,27 @@
+parameters:
+- name: pullSecret
+  type: string
+  default: $pullSecret
+- name: aadClientSecret
+  type: string
+  default: $aadClientSecret
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'myconnection'
+    subscriptionId: '2e39dc9c-a38f-475c-aa16-dfb68153287b'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'prueba123'
+    location: 'West Europe'
+    templateLocation: 'URL of the file'
+    csmFileLink: 'https://raw.githubusercontent.com/jlopezpa/azure-quickstart-templates/main/quickstarts/microsoft.openshift/ocp-create-cluster/azuredeploy.json'
+    csmParametersFileLink: 'https://raw.githubusercontent.com/jlopezpa/azure-quickstart-templates/main/quickstarts/microsoft.openshift/ocp-create-cluster/deploymentParameters.json'
+    deploymentMode: 'Incremental'
