@@ -33,7 +33,7 @@
             "value": "2c114d4f-535f-4396-a6d5-5aad22a870c0"
         },
         "aadClientSecret": {
-            "value": "[parameters('aadClientSecret')]"
+            "value": null
         },
         "apiServerVisibility": {
             "value": "Public"
