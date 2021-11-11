@@ -33,7 +33,7 @@
             "value": "2c114d4f-535f-4396-a6d5-5aad22a870c0"
         },
         "aadClientSecret": {
-            "value": null
+            "value": "[parameters('aadClientSecret')]"
         },
         "apiServerVisibility": {
             "value": "Public"
@@ -45,7 +45,7 @@
             "value": "b285d9f6-98ce-4602-aa50-3a2dd30b95f0"
         },
         "pullSecret": {
-            "value": null
+            "value": "[parameters('pullSecret')]"
         },
         "tagsByResource": {
             "value": {}
