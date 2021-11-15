@@ -19,6 +19,6 @@ steps:
     resourceGroupName: 'prueba123'
     location: 'West Europe'
     templateLocation: 'URL of the file'
-    csmFileLink: 'https://raw.githubusercontent.com/jlopezpa/azure-quickstart-templates/main/quickstarts/microsoft.openshift/ocp-create-cluster/azuredeploy.json'
-    csmParametersFileLink: 'https://raw.githubusercontent.com/jlopezpa/azure-quickstart-templates/main/quickstarts/microsoft.openshift/ocp-create-cluster/deploymentParameters.json'
+    csmFileLink: 'https://raw.githubusercontent.com/jlopezpa/azure-quickstart-templates/main/quickstarts/microsoft.vmscales/vmscales/template.json'
+    csmParametersFileLink: 'https://raw.githubusercontent.com/jlopezpa/azure-quickstart-templates/main/quickstarts/microsoft.vmscales/vmscales/template.json'
     deploymentMode: 'Incremental'
