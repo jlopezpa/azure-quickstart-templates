@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-            "value": "westeurope"
+            "value": "northeurope"
         },
         "osDiskType": {
             "value": "Premium_LRS"
@@ -56,10 +56,10 @@
             ]
         },
         "vmName": {
-            "value": "myvms"
+            "value": "vms"
         },
         "virtualMachineScaleSetName": {
-            "value": "myvms"
+            "value": "vms"
         },
         "singlePlacementGroup": {
             "value": "false"
