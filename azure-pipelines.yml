@@ -17,7 +17,7 @@ steps:
     subscriptionId: '2e39dc9c-a38f-475c-aa16-dfb68153287b'
     action: 'Create Or Update Resource Group'
     resourceGroupName: 'prueba123'
-    location: ''
+    location: 'westeurope'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/jlopezpa/azure-quickstart-templates/main/quickstarts/microsoft.vmscales/vmscales/template.json'
     csmParametersFileLink: 'https://raw.githubusercontent.com/jlopezpa/azure-quickstart-templates/main/quickstarts/microsoft.vmscales/vmscales/template.json'
