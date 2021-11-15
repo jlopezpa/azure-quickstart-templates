@@ -1,0 +1,98 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "westeurope"
+        },
+        "osDiskType": {
+            "value": "Premium_LRS"
+        },
+        "addressPrefixes": {
+            "value": [
+                "10.0.0.0/16"
+            ]
+        },
+        "subnets": {
+            "value": [
+                {
+                    "name": "default",
+                    "properties": {
+                        "addressPrefix": "10.0.0.0/16"
+                    }
+                }
+            ]
+        },
+        "virtualNetworkId": {
+            "value": "/subscriptions/2e39dc9c-a38f-475c-aa16-dfb68153287b/resourceGroups/prueba123/providers/Microsoft.Network/virtualNetworks/prueba123-vnet"
+        },
+        "virtualNetworkName": {
+            "value": "prueba123-vnet"
+        },
+        "networkSecurityGroups": {
+            "value": [
+                {
+                    "name": "basicNsgprueba123-vnet-nic01",
+                    "id": "/subscriptions/2e39dc9c-a38f-475c-aa16-dfb68153287b/resourceGroups/prueba123/providers/Microsoft.Network/networkSecurityGroups/basicNsgprueba123-vnet-nic01",
+                    "rules": []
+                }
+            ]
+        },
+        "networkInterfaceConfigurations": {
+            "value": [
+                {
+                    "name": "prueba123-vnet-nic01",
+                    "primary": true,
+                    "subnetId": "/subscriptions/2e39dc9c-a38f-475c-aa16-dfb68153287b/resourceGroups/prueba123/providers/Microsoft.Network/virtualNetworks/prueba123-vnet/subnets/default",
+                    "applicationGatewayBackendAddressPools": [],
+                    "loadBalancerBackendAddressPools": [],
+                    "applicationSecurityGroups": [],
+                    "loadBalancerInboundNatPools": [],
+                    "enableAcceleratedNetworking": true,
+                    "nsgName": "basicNsgprueba123-vnet-nic01",
+                    "nsgId": "/subscriptions/2e39dc9c-a38f-475c-aa16-dfb68153287b/resourceGroups/prueba123/providers/Microsoft.Network/networkSecurityGroups/basicNsgprueba123-vnet-nic01",
+                    "pipName": ""
+                }
+            ]
+        },
+        "vmName": {
+            "value": "myvms"
+        },
+        "virtualMachineScaleSetName": {
+            "value": "myvms"
+        },
+        "singlePlacementGroup": {
+            "value": "false"
+        },
+        "instanceCount": {
+            "value": "2"
+        },
+        "instanceSize": {
+            "value": "Standard_D2s_v3"
+        },
+        "scaleInPolicy": {
+            "value": {
+                "rules": [
+                    "Default"
+                ]
+            }
+        },
+        "overprovision": {
+            "value": false
+        },
+        "upgradePolicy": {
+            "value": "Manual"
+        },
+        "adminUsername": {
+            "value": "azureuser"
+        },
+        "platformFaultDomainCount": {
+            "value": "1"
+        },
+        "zone": {
+            "value": [
+                "1"
+            ]
+        }
+    }
+}
