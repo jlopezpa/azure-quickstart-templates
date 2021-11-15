@@ -22,3 +22,5 @@ steps:
     csmFileLink: 'https://raw.githubusercontent.com/jlopezpa/azure-quickstart-templates/main/quickstarts/microsoft.vmscales/vmscales/template.json'
     csmParametersFileLink: 'https://raw.githubusercontent.com/jlopezpa/azure-quickstart-templates/main/quickstarts/microsoft.vmscales/vmscales/template.json'
     deploymentMode: 'Incremental'
+  continueOnError: true
+  condition: failed()
