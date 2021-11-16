@@ -87,13 +87,13 @@
             "value": "azureuser"
         },
         "adminPublicKey": {
-            "value": null
+            "value": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBqTcrtcr0U3/NNvKNZTQJo6IyY/0E8AwypINiB7IhL+p54BKcYlOYdX9BVpAatpZ8yj70SWkV5z58ssSLHP+xuKE4D5/hVYTtnNA2YlzAFi/r2QM7uQOOvM9P3X10N4rGr48QFljVOtbxeRVVzuung65tPoGQnsfx1DsjZdpkStPwVNrvFPJ0W+Q20NtIKulBs3I3DaCT8yISbWhBr/EX1mzrQyECSGuyKIBsTmHp116y6mCwfSQzrfrszb5uB9gAjbuzvpOrUBbJNBToTKCo7lfrcaJzDwIXBDSqYaZq/IYQfpcDyLEaKzq/8c2xe+lkkYBzYYcDUN3uy6Qww5R/kStJSpeA14G4r2hpunx2565My9eVtSnZKiDhYw19vl3yywRFMQB57BZQZ+e+UlHOq/x3Shx1jOArnISXuCP8yEywYhW1fAjlr03DO/ODVT8C/7iT/GmKaQL6MT6mzr0nns965MSPFhN3nIZjw8nczXIZZNrEv2jg/tBrdWqjW+0= Usuario@DESKTOP-SIT5OI4"
         },
         "platformFaultDomainCount": {
             "value": "1"
         },
         "zone": {
-            "value": [
+            "value": [ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBqTcrtcr0U3/NNvKNZTQJo6IyY/0E8AwypINiB7IhL+p54BKcYlOYdX9BVpAatpZ8yj70SWkV5z58ssSLHP+xuKE4D5/hVYTtnNA2YlzAFi/r2QM7uQOOvM9P3X10N4rGr48QFljVOtbxeRVVzuung65tPoGQnsfx1DsjZdpkStPwVNrvFPJ0W+Q20NtIKulBs3I3DaCT8yISbWhBr/EX1mzrQyECSGuyKIBsTmHp116y6mCwfSQzrfrszb5uB9gAjbuzvpOrUBbJNBToTKCo7lfrcaJzDwIXBDSqYaZq/IYQfpcDyLEaKzq/8c2xe+lkkYBzYYcDUN3uy6Qww5R/kStJSpeA14G4r2hpunx2565My9eVtSnZKiDhYw19vl3yywRFMQB57BZQZ+e+UlHOq/x3Shx1jOArnISXuCP8yEywYhW1fAjlr03DO/ODVT8C/7iT/GmKaQL6MT6mzr0nns965MSPFhN3nIZjw8nczXIZZNrEv2jg/tBrdWqjW+0= Usuario@DESKTOP-SIT5OI4
                 "1"
             ]
         }
