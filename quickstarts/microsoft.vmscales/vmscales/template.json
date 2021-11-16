@@ -1,80 +1,119 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "virtualMachineScaleSets_vms_name": {
-            "defaultValue": "vms",
-            "type": "String"
+        "location": {
+            "type": "string"
         },
-        "networkSecurityGroups_basicNsgprueba123_vnet_nic01_externalid": {
-            "defaultValue": "/subscriptions/2e39dc9c-a38f-475c-aa16-dfb68153287b/resourceGroups/prueba123/providers/Microsoft.Network/networkSecurityGroups/basicNsgprueba123-vnet-nic01",
-            "type": "String"
+        "osDiskType": {
+            "type": "string"
         },
-        "virtualNetworks_prueba123_vnet_externalid": {
-            "defaultValue": "/subscriptions/2e39dc9c-a38f-475c-aa16-dfb68153287b/resourceGroups/prueba123/providers/Microsoft.Network/virtualNetworks/prueba123-vnet",
-            "type": "String"
+        "addressPrefixes": {
+            "type": "array"
         },
-        "disks_vms_vms_0_OsDisk_1_d307bb2df4e9407ebd34b5c789780e93_externalid": {
-            "defaultValue": "/subscriptions/2e39dc9c-a38f-475c-aa16-dfb68153287b/resourceGroups/prueba123/providers/Microsoft.Compute/disks/vms_vms_0_OsDisk_1_d307bb2df4e9407ebd34b5c789780e93",
-            "type": "String"
+        "subnets": {
+            "type": "array"
         },
-        "disks_vms_vms_1_OsDisk_1_da877adc95fc46f8a112d76fe30cb835_externalid": {
-            "defaultValue": "/subscriptions/2e39dc9c-a38f-475c-aa16-dfb68153287b/resourceGroups/prueba123/providers/Microsoft.Compute/disks/vms_vms_1_OsDisk_1_da877adc95fc46f8a112d76fe30cb835",
-            "type": "String"
+        "virtualNetworkId": {
+            "type": "string"
+        },
+        "virtualNetworkName": {
+            "type": "string"
+        },
+        "networkSecurityGroups": {
+            "type": "array"
+        },
+        "networkInterfaceConfigurations": {
+            "type": "array"
+        },
+        "vmName": {
+            "type": "string"
+        },
+        "virtualMachineScaleSetName": {
+            "type": "string"
+        },
+        "singlePlacementGroup": {
+            "type": "string"
+        },
+        "instanceCount": {
+            "type": "string"
+        },
+        "instanceSize": {
+            "type": "string"
+        },
+        "scaleInPolicy": {
+            "type": "object"
+        },
+        "overprovision": {
+            "type": "bool"
+        },
+        "upgradePolicy": {
+            "type": "string"
+        },
+        "adminUsername": {
+            "type": "string"
+        },
+        "adminPublicKey": {
+            "type": "secureString"
+        },
+        "platformFaultDomainCount": {
+            "type": "string"
+        },
+        "zone": {
+            "type": "array"
         }
     },
-    "variables": {},
+    "variables": {
+        "storageApiVersion": "2019-04-01",
+        "virtualMachineScaleSetApiVersion": "2021-04-01",
+        "namingInfix": "[toLower(substring(concat(parameters('virtualMachineScaleSetName'), uniqueString(resourceGroup().id)), 0, 9))]"
+    },
     "resources": [
         {
-            "type": "Microsoft.Compute/virtualMachineScaleSets",
-            "apiVersion": "2021-07-01",
-            "name": "[parameters('virtualMachineScaleSets_vms_name')]",
-            "location": "westeurope",
-            "sku": {
-                "name": "Standard_D2s_v3",
-                "tier": "Standard",
-                "capacity": 2
+            "name": "[parameters('virtualNetworkName')]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2020-11-01",
+            "location": "[parameters('location')]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": "[parameters('addressPrefixes')]"
+                },
+                "subnets": "[parameters('subnets')]"
+            }
+        },
+        {
+            "name": "[parameters('networkSecurityGroups')[copyIndex()].name]",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2019-02-01",
+            "location": "[parameters('location')]",
+            "properties": {
+                "securityRules": "[parameters('networkSecurityGroups')[copyIndex()].rules]"
             },
-            "zones": [
-                "1"
+            "copy": {
+                "name": "networkSecurityGroups",
+                "count": "[length(parameters('networkSecurityGroups'))]"
+            }
+        },
+        {
+            "name": "[parameters('virtualMachineScaleSetName')]",
+            "type": "Microsoft.Compute/virtualMachineScaleSets",
+            "apiVersion": "[variables('virtualMachineScaleSetApiVersion')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
+                "networkSecurityGroups",
+                "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]"
             ],
             "properties": {
-                "singlePlacementGroup": false,
-                "upgradePolicy": {
-                    "mode": "Manual"
-                },
-                "scaleInPolicy": {
-                    "rules": [
-                        "Default"
-                    ]
-                },
+                "singlePlacementGroup": "[parameters('singlePlacementGroup')]",
                 "virtualMachineProfile": {
-                    "osProfile": {
-                        "computerNamePrefix": "[concat(parameters('virtualMachineScaleSets_vms_name'), '2ppcqm')]",
-                        "adminUsername": "azureuser",
-                        "linuxConfiguration": {
-                            "disablePasswordAuthentication": true,
-                            "ssh": {
-                                "publicKeys": [
-                                    {
-                                        "path": "/home/azureuser/.ssh/authorized_keys",
-                                        "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBqTcrtcr0U3/NNvKNZTQJo6IyY/0E8AwypINiB7IhL+p54BKcYlOYdX9BVpAatpZ8yj70SWkV5z58ssSLHP+xuKE4D5/hVYTtnNA2YlzAFi/r2QM7uQOOvM9P3X10N4rGr48QFljVOtbxeRVVzuung65tPoGQnsfx1DsjZdpkStPwVNrvFPJ0W+Q20NtIKulBs3I3DaCT8yISbWhBr/EX1mzrQyECSGuyKIBsTmHp116y6mCwfSQzrfrszb5uB9gAjbuzvpOrUBbJNBToTKCo7lfrcaJzDwIXBDSqYaZq/IYQfpcDyLEaKzq/8c2xe+lkkYBzYYcDUN3uy6Qww5R/kStJSpeA14G4r2hpunx2565My9eVtSnZKiDhYw19vl3yywRFMQB57BZQZ+e+UlHOq/x3Shx1jOArnISXuCP8yEywYhW1fAjlr03DO/ODVT8C/7iT/GmKaQL6MT6mzr0nns965MSPFhN3nIZjw8nczXIZZNrEv2jg/tBrdWqjW+0= Usuario@DESKTOP-SIT5OI4"
-                                    }
-                                ]
-                            },
-                            "provisionVMAgent": true
-                        },
-                        "secrets": []
-                    },
                     "storageProfile": {
                         "osDisk": {
-                            "osType": "Linux",
-                            "createOption": "FromImage",
+                            "createOption": "fromImage",
                             "caching": "ReadWrite",
                             "managedDisk": {
-                                "storageAccountType": "Premium_LRS"
-                            },
-                            "diskSizeGB": 30
+                                "storageAccountType": "[parameters('osDiskType')]"
+                            }
                         },
                         "imageReference": {
                             "publisher": "OpenLogic",
@@ -84,248 +123,79 @@
                         }
                     },
                     "networkProfile": {
-                        "networkInterfaceConfigurations": [
+                        "copy": [
                             {
-                                "name": "prueba123-vnet-nic01",
-                                "properties": {
-                                    "primary": true,
-                                    "enableAcceleratedNetworking": true,
-                                    "networkSecurityGroup": {
-                                        "id": "[parameters('networkSecurityGroups_basicNsgprueba123_vnet_nic01_externalid')]"
-                                    },
-                                    "dnsSettings": {
-                                        "dnsServers": []
-                                    },
-                                    "enableIPForwarding": false,
-                                    "ipConfigurations": [
-                                        {
-                                            "name": "prueba123-vnet-nic01-defaultIpConfiguration",
-                                            "properties": {
-                                                "primary": true,
-                                                "subnet": {
-                                                    "id": "[concat(parameters('virtualNetworks_prueba123_vnet_externalid'), '/subnets/default')]"
-                                                },
-                                                "privateIPAddressVersion": "IPv4"
+                                "name": "networkInterfaceConfigurations",
+                                "count": "[length(parameters('networkInterfaceConfigurations'))]",
+                                "input": {
+                                    "name": "[parameters('networkInterfaceConfigurations')[copyIndex('networkInterfaceConfigurations')].name]",
+                                    "properties": {
+                                        "primary": "[parameters('networkInterfaceConfigurations')[copyIndex('networkInterfaceConfigurations')].primary]",
+                                        "enableAcceleratedNetworking": "[parameters('networkInterfaceConfigurations')[copyIndex('networkInterfaceConfigurations')].enableAcceleratedNetworking]",
+                                        "ipConfigurations": [
+                                            {
+                                                "name": "[concat(take(parameters('networkInterfaceConfigurations')[copyIndex('networkInterfaceConfigurations')].name, sub(80, length('-defaultIpConfiguration'))), '-defaultIpConfiguration')]",
+                                                "properties": {
+                                                    "subnet": {
+                                                        "id": "[parameters('networkInterfaceConfigurations')[copyIndex('networkInterfaceConfigurations')].subnetId]"
+                                                    },
+                                                    "primary": "[parameters('networkInterfaceConfigurations')[copyIndex('networkInterfaceConfigurations')].primary]",
+                                                    "applicationGatewayBackendAddressPools": "[parameters('networkInterfaceConfigurations')[copyIndex('networkInterfaceConfigurations')].applicationGatewayBackendAddressPools]",
+                                                    "loadBalancerBackendAddressPools": "[parameters('networkInterfaceConfigurations')[copyIndex('networkInterfaceConfigurations')].loadBalancerBackendAddressPools]",
+                                                    "publicIPAddressConfiguration": "[if( equals( parameters('networkInterfaceConfigurations')[copyIndex('networkInterfaceConfigurations')].pipName, ''), json('null'), union(json(concat('{\"name\": \"', parameters('networkInterfaceConfigurations')[copyIndex('networkInterfaceConfigurations')].pipName, '\"}'))\n        ,json('{\"properties\": { \"idleTimeoutInMinutes\": 15}}')))]",
+                                                    "loadBalancerInboundNatPools": "[parameters('networkInterfaceConfigurations')[copyIndex('networkInterfaceConfigurations')].loadBalancerInboundNatPools]"
+                                                }
                                             }
-                                        }
-                                    ]
+                                        ],
+                                        "networkSecurityGroup": "[if( equals( parameters('networkInterfaceConfigurations')[copyIndex('networkInterfaceConfigurations')].nsgId, ''), json('null'),json(concat('{\"id\": \"', parameters('networkInterfaceConfigurations')[copyIndex('networkInterfaceConfigurations')].nsgId, '\"}')))]"
+                                    }
                                 }
                             }
                         ]
+                    },
+                    "extensionProfile": {
+                        "extensions": []
                     },
                     "diagnosticsProfile": {
                         "bootDiagnostics": {
                             "enabled": true
                         }
                     },
-                    "extensionProfile": {
-                        "extensions": []
-                    }
-                },
-                "overprovision": false,
-                "doNotRunExtensionsOnOverprovisionedVMs": false,
-                "platformFaultDomainCount": 1
-            }
-        },
-        {
-            "type": "Microsoft.Compute/virtualMachineScaleSets/virtualMachines",
-            "apiVersion": "2021-07-01",
-            "name": "[concat(parameters('virtualMachineScaleSets_vms_name'), '/0')]",
-            "location": "westeurope",
-            "dependsOn": [
-                "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('virtualMachineScaleSets_vms_name'))]"
-            ],
-            "sku": {
-                "name": "Standard_D2s_v3",
-                "tier": "Standard"
-            },
-            "zones": [
-                "1"
-            ],
-            "properties": {
-                "networkProfileConfiguration": {
-                    "networkInterfaceConfigurations": [
-                        {
-                            "name": "prueba123-vnet-nic01",
-                            "properties": {
-                                "primary": true,
-                                "enableAcceleratedNetworking": true,
-                                "networkSecurityGroup": {
-                                    "id": "[parameters('networkSecurityGroups_basicNsgprueba123_vnet_nic01_externalid')]"
-                                },
-                                "dnsSettings": {
-                                    "dnsServers": []
-                                },
-                                "enableIPForwarding": false,
-                                "ipConfigurations": [
+                    "osProfile": {
+                        "computerNamePrefix": "[variables('namingInfix')]",
+                        "adminUsername": "[parameters('adminUsername')]",
+                        "linuxConfiguration": {
+                            "disablePasswordAuthentication": true,
+                            "ssh": {
+                                "publicKeys": [
                                     {
-                                        "name": "prueba123-vnet-nic01-defaultIpConfiguration",
-                                        "properties": {
-                                            "primary": true,
-                                            "subnet": {
-                                                "id": "[concat(parameters('virtualNetworks_prueba123_vnet_externalid'), '/subnets/default')]"
-                                            },
-                                            "privateIPAddressVersion": "IPv4"
-                                        }
+                                        "path": "/home/azureuser/.ssh/authorized_keys",
+                                        "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBqTcrtcr0U3/NNvKNZTQJo6IyY/0E8AwypINiB7IhL+p54BKcYlOYdX9BVpAatpZ8yj70SWkV5z58ssSLHP+xuKE4D5/hVYTtnNA2YlzAFi/r2QM7uQOOvM9P3X10N4rGr48QFljVOtbxeRVVzuung65tPoGQnsfx1DsjZdpkStPwVNrvFPJ0W+Q20NtIKulBs3I3DaCT8yISbWhBr/EX1mzrQyECSGuyKIBsTmHp116y6mCwfSQzrfrszb5uB9gAjbuzvpOrUBbJNBToTKCo7lfrcaJzDwIXBDSqYaZq/IYQfpcDyLEaKzq/8c2xe+lkkYBzYYcDUN3uy6Qww5R/kStJSpeA14G4r2hpunx2565My9eVtSnZKiDhYw19vl3yywRFMQB57BZQZ+e+UlHOq/x3Shx1jOArnISXuCP8yEywYhW1fAjlr03DO/ODVT8C/7iT/GmKaQL6MT6mzr0nns965MSPFhN3nIZjw8nczXIZZNrEv2jg/tBrdWqjW+0= Usuario@DESKTOP-SIT5OI4"
                                     }
                                 ]
                             }
                         }
-                    ]
-                },
-                "hardwareProfile": {},
-                "storageProfile": {
-                    "imageReference": {
-                        "publisher": "OpenLogic",
-                        "offer": "CentOS",
-                        "sku": "7_9-gen2",
-                        "version": "latest"
-                    },
-                    "osDisk": {
-                        "osType": "Linux",
-                        "name": "vms_vms_0_OsDisk_1_d307bb2df4e9407ebd34b5c789780e93",
-                        "createOption": "FromImage",
-                        "caching": "ReadWrite",
-                        "managedDisk": {
-                            "storageAccountType": "Premium_LRS",
-                            "id": "[parameters('disks_vms_vms_0_OsDisk_1_d307bb2df4e9407ebd34b5c789780e93_externalid')]"
-                        },
-                        "diskSizeGB": 30
-                    },
-                    "dataDisks": []
-                },
-                "osProfile": {
-                    "computerName": "vms2ppcqm000000",
-                    "adminUsername": "azureuser",
-                    "linuxConfiguration": {
-                        "disablePasswordAuthentication": true,
-                        "ssh": {
-                            "publicKeys": [
-                                {
-                                    "path": "/home/azureuser/.ssh/authorized_keys",
-                                    "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBqTcrtcr0U3/NNvKNZTQJo6IyY/0E8AwypINiB7IhL+p54BKcYlOYdX9BVpAatpZ8yj70SWkV5z58ssSLHP+xuKE4D5/hVYTtnNA2YlzAFi/r2QM7uQOOvM9P3X10N4rGr48QFljVOtbxeRVVzuung65tPoGQnsfx1DsjZdpkStPwVNrvFPJ0W+Q20NtIKulBs3I3DaCT8yISbWhBr/EX1mzrQyECSGuyKIBsTmHp116y6mCwfSQzrfrszb5uB9gAjbuzvpOrUBbJNBToTKCo7lfrcaJzDwIXBDSqYaZq/IYQfpcDyLEaKzq/8c2xe+lkkYBzYYcDUN3uy6Qww5R/kStJSpeA14G4r2hpunx2565My9eVtSnZKiDhYw19vl3yywRFMQB57BZQZ+e+UlHOq/x3Shx1jOArnISXuCP8yEywYhW1fAjlr03DO/ODVT8C/7iT/GmKaQL6MT6mzr0nns965MSPFhN3nIZjw8nczXIZZNrEv2jg/tBrdWqjW+0= Usuario@DESKTOP-SIT5OI4"
-                                }
-                            ]
-                        },
-                        "provisionVMAgent": true
-                    },
-                    "secrets": [],
-                    "allowExtensionOperations": true,
-                    "requireGuestProvisionSignal": true
-                },
-                "networkProfile": {
-                    "networkInterfaces": [
-                        {
-                            "id": "[concat(resourceId('Microsoft.Compute/virtualMachineScaleSets/virtualMachines', parameters('virtualMachineScaleSets_vms_name'), '0'), '/networkInterfaces/prueba123-vnet-nic01')]"
-                        }
-                    ]
-                },
-                "diagnosticsProfile": {
-                    "bootDiagnostics": {
-                        "enabled": true
                     }
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Compute/virtualMachineScaleSets/virtualMachines",
-            "apiVersion": "2021-07-01",
-            "name": "[concat(parameters('virtualMachineScaleSets_vms_name'), '/1')]",
-            "location": "westeurope",
-            "dependsOn": [
-                "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('virtualMachineScaleSets_vms_name'))]"
-            ],
-            "sku": {
-                "name": "Standard_D2s_v3",
-                "tier": "Standard"
+                },
+                "orchestrationMode": "Uniform",
+                "scaleInPolicy": "[parameters('scaleInPolicy')]",
+                "overprovision": "[parameters('overprovision')]",
+                "upgradePolicy": {
+                    "mode": "[parameters('upgradePolicy')]"
+                },
+                "platformFaultDomainCount": "[parameters('platformFaultDomainCount')]"
             },
-            "zones": [
-                "1"
-            ],
-            "properties": {
-                "networkProfileConfiguration": {
-                    "networkInterfaceConfigurations": [
-                        {
-                            "name": "prueba123-vnet-nic01",
-                            "properties": {
-                                "primary": true,
-                                "enableAcceleratedNetworking": true,
-                                "networkSecurityGroup": {
-                                    "id": "[parameters('networkSecurityGroups_basicNsgprueba123_vnet_nic01_externalid')]"
-                                },
-                                "dnsSettings": {
-                                    "dnsServers": []
-                                },
-                                "enableIPForwarding": false,
-                                "ipConfigurations": [
-                                    {
-                                        "name": "prueba123-vnet-nic01-defaultIpConfiguration",
-                                        "properties": {
-                                            "primary": true,
-                                            "subnet": {
-                                                "id": "[concat(parameters('virtualNetworks_prueba123_vnet_externalid'), '/subnets/default')]"
-                                            },
-                                            "privateIPAddressVersion": "IPv4"
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    ]
-                },
-                "hardwareProfile": {},
-                "storageProfile": {
-                    "imageReference": {
-                        "publisher": "OpenLogic",
-                        "offer": "CentOS",
-                        "sku": "7_9-gen2",
-                        "version": "latest"
-                    },
-                    "osDisk": {
-                        "osType": "Linux",
-                        "name": "vms_vms_1_OsDisk_1_da877adc95fc46f8a112d76fe30cb835",
-                        "createOption": "FromImage",
-                        "caching": "ReadWrite",
-                        "managedDisk": {
-                            "storageAccountType": "Premium_LRS",
-                            "id": "[parameters('disks_vms_vms_1_OsDisk_1_da877adc95fc46f8a112d76fe30cb835_externalid')]"
-                        },
-                        "diskSizeGB": 30
-                    },
-                    "dataDisks": []
-                },
-                "osProfile": {
-                    "computerName": "vms2ppcqm000001",
-                    "adminUsername": "azureuser",
-                    "linuxConfiguration": {
-                        "disablePasswordAuthentication": true,
-                        "ssh": {
-                            "publicKeys": [
-                                {
-                                    "path": "/home/azureuser/.ssh/authorized_keys",
-                                    "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBqTcrtcr0U3/NNvKNZTQJo6IyY/0E8AwypINiB7IhL+p54BKcYlOYdX9BVpAatpZ8yj70SWkV5z58ssSLHP+xuKE4D5/hVYTtnNA2YlzAFi/r2QM7uQOOvM9P3X10N4rGr48QFljVOtbxeRVVzuung65tPoGQnsfx1DsjZdpkStPwVNrvFPJ0W+Q20NtIKulBs3I3DaCT8yISbWhBr/EX1mzrQyECSGuyKIBsTmHp116y6mCwfSQzrfrszb5uB9gAjbuzvpOrUBbJNBToTKCo7lfrcaJzDwIXBDSqYaZq/IYQfpcDyLEaKzq/8c2xe+lkkYBzYYcDUN3uy6Qww5R/kStJSpeA14G4r2hpunx2565My9eVtSnZKiDhYw19vl3yywRFMQB57BZQZ+e+UlHOq/x3Shx1jOArnISXuCP8yEywYhW1fAjlr03DO/ODVT8C/7iT/GmKaQL6MT6mzr0nns965MSPFhN3nIZjw8nczXIZZNrEv2jg/tBrdWqjW+0= Usuario@DESKTOP-SIT5OI4"
-                                }
-                            ]
-                        },
-                        "provisionVMAgent": true
-                    },
-                    "secrets": [],
-                    "allowExtensionOperations": true,
-                    "requireGuestProvisionSignal": true
-                },
-                "networkProfile": {
-                    "networkInterfaces": [
-                        {
-                            "id": "[concat(resourceId('Microsoft.Compute/virtualMachineScaleSets/virtualMachines', parameters('virtualMachineScaleSets_vms_name'), '1'), '/networkInterfaces/prueba123-vnet-nic01')]"
-                        }
-                    ]
-                },
-                "diagnosticsProfile": {
-                    "bootDiagnostics": {
-                        "enabled": true
-                    }
-                }
-            }
+            "sku": {
+                "name": "[parameters('instanceSize')]",
+                "capacity": "[int(parameters('instanceCount'))]"
+            },
+            "zones": "[parameters('zone')]"
         }
-    ]
+    ],
+    "outputs": {
+        "adminUsername": {
+            "type": "string",
+            "value": "[parameters('adminUsername')]"
+        }
+    }
 }
