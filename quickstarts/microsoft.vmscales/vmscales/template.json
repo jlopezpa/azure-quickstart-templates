@@ -53,6 +53,9 @@
         "adminUsername": {
             "type": "string"
         },
+        "adminPublicKey": {
+            "type": "secureString"
+        },
         "platformFaultDomainCount": {
             "type": "string"
         },
@@ -162,17 +165,18 @@
                         "computerNamePrefix": "[variables('namingInfix')]",
                         "adminUsername": "[parameters('adminUsername')]",
                         "linuxConfiguration": {
-                            "disablePasswordAuthentication": true
+                            "disablePasswordAuthentication": true,
                             "ssh": {
-                              "publicKeys": [
-                                                {
-                                                    "path": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
-                                                    "keyData": "[parameters('adminPublicKey')]"
-                                                }
-                                            ]
+                                "publicKeys": [
+                                    {
+                                        "path": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
+                                        "keyData": "[parameters('adminPublicKey')]"
                                     }
-                                 }
-                    },
+                                ]
+                            }
+                        }
+                    }
+                },
                 "orchestrationMode": "Uniform",
                 "scaleInPolicy": "[parameters('scaleInPolicy')]",
                 "overprovision": "[parameters('overprovision')]",
