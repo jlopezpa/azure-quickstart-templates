@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "virtualMachineScaleSets_vms_name": {
-            "value": null
+            "value": "vms"
         },
         "networkSecurityGroups_basicNsgprueba123_vnet_nic01_externalid": {
             "value": null
