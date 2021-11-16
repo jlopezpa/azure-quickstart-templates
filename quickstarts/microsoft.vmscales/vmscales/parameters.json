@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-            "value": "northeurope"
+            "value": "westeurope"
         },
         "osDiskType": {
             "value": "Premium_LRS"
@@ -85,6 +85,9 @@
         },
         "adminUsername": {
             "value": "azureuser"
+        },
+        "adminPublicKey": {
+            "value": null
         },
         "platformFaultDomainCount": {
             "value": "1"
