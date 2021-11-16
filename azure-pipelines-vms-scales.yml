@@ -13,12 +13,12 @@ steps:
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'myconnection123'
+    azureResourceManagerConnection: 'myconnection'
     subscriptionId: '2e39dc9c-a38f-475c-aa16-dfb68153287b'
     action: 'Create Or Update Resource Group'
     resourceGroupName: 'prueba123'
-    location: 'westeurope'
+    location: 'West Europe'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/jlopezpa/azure-quickstart-templates/main/quickstarts/microsoft.vmscales/vmscales/template.json'
-    csmParametersFileLink: 'https://raw.githubusercontent.com/jlopezpa/azure-quickstart-templates/main/quickstarts/microsoft.vmscales/vmscales/template.json'
+    csmParametersFileLink: 'https://raw.githubusercontent.com/jlopezpa/azure-quickstart-templates/main/quickstarts/microsoft.vmscales/vmscales/parameters.json'
     deploymentMode: 'Incremental'
