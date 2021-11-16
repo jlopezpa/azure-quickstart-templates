@@ -2,98 +2,20 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "location": {
-            "value": "westeurope"
+        "virtualMachineScaleSets_vms_name": {
+            "value": null
         },
-        "osDiskType": {
-            "value": "Premium_LRS"
+        "networkSecurityGroups_basicNsgprueba123_vnet_nic01_externalid": {
+            "value": null
         },
-        "addressPrefixes": {
-            "value": [
-                "10.0.0.0/16"
-            ]
+        "virtualNetworks_prueba123_vnet_externalid": {
+            "value": null
         },
-        "subnets": {
-            "value": [
-                {
-                    "name": "default",
-                    "properties": {
-                        "addressPrefix": "10.0.0.0/16"
-                    }
-                }
-            ]
+        "disks_vms_vms_0_OsDisk_1_d307bb2df4e9407ebd34b5c789780e93_externalid": {
+            "value": null
         },
-        "virtualNetworkId": {
-            "value": "/subscriptions/2e39dc9c-a38f-475c-aa16-dfb68153287b/resourceGroups/prueba123/providers/Microsoft.Network/virtualNetworks/prueba123-vnet"
-        },
-        "virtualNetworkName": {
-            "value": "prueba123-vnet"
-        },
-        "networkSecurityGroups": {
-            "value": [
-                {
-                    "name": "basicNsgprueba123-vnet-nic01",
-                    "id": "/subscriptions/2e39dc9c-a38f-475c-aa16-dfb68153287b/resourceGroups/prueba123/providers/Microsoft.Network/networkSecurityGroups/basicNsgprueba123-vnet-nic01",
-                    "rules": []
-                }
-            ]
-        },
-        "networkInterfaceConfigurations": {
-            "value": [
-                {
-                    "name": "prueba123-vnet-nic01",
-                    "primary": true,
-                    "subnetId": "/subscriptions/2e39dc9c-a38f-475c-aa16-dfb68153287b/resourceGroups/prueba123/providers/Microsoft.Network/virtualNetworks/prueba123-vnet/subnets/default",
-                    "applicationGatewayBackendAddressPools": [],
-                    "loadBalancerBackendAddressPools": [],
-                    "applicationSecurityGroups": [],
-                    "loadBalancerInboundNatPools": [],
-                    "enableAcceleratedNetworking": true,
-                    "nsgName": "basicNsgprueba123-vnet-nic01",
-                    "nsgId": "/subscriptions/2e39dc9c-a38f-475c-aa16-dfb68153287b/resourceGroups/prueba123/providers/Microsoft.Network/networkSecurityGroups/basicNsgprueba123-vnet-nic01",
-                    "pipName": ""
-                }
-            ]
-        },
-        "vmName": {
-            "value": "vms"
-        },
-        "virtualMachineScaleSetName": {
-            "value": "vms"
-        },
-        "singlePlacementGroup": {
-            "value": "false"
-        },
-        "instanceCount": {
-            "value": "2"
-        },
-        "instanceSize": {
-            "value": "Standard_D2s_v3"
-        },
-        "scaleInPolicy": {
-            "value": {
-                "rules": [
-                    "Default"
-                ]
-            }
-        },
-        "overprovision": {
-            "value": false
-        },
-        "upgradePolicy": {
-            "value": "Manual"
-        },
-        "adminUsername": {
-            "value": "azureuser"
-        },
-        "adminPublicKey": {
-            "value": ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBqTcrtcr0U3/NNvKNZTQJo6IyY/0E8AwypINiB7IhL+p54BKcYlOYdX9BVpAatpZ8yj70SWkV5z58ssSLHP+xuKE4D5/hVYTtnNA2YlzAFi/r2QM7uQOOvM9P3X10N4rGr48QFljVOtbxeRVVzuung65tPoGQnsfx1DsjZdpkStPwVNrvFPJ0W+Q20NtIKulBs3I3DaCT8yISbWhBr/EX1mzrQyECSGuyKIBsTmHp116y6mCwfSQzrfrszb5uB9gAjbuzvpOrUBbJNBToTKCo7lfrcaJzDwIXBDSqYaZq/IYQfpcDyLEaKzq/8c2xe+lkkYBzYYcDUN3uy6Qww5R/kStJSpeA14G4r2hpunx2565My9eVtSnZKiDhYw19vl3yywRFMQB57BZQZ+e+UlHOq/x3Shx1jOArnISXuCP8yEywYhW1fAjlr03DO/ODVT8C/7iT/GmKaQL6MT6mzr0nns965MSPFhN3nIZjw8nczXIZZNrEv2jg/tBrdWqjW+0= Usuario@DESKTOP-SIT5OI4
-        },
-        "platformFaultDomainCount": {
-            "value": "1"
-        },
-        "zone": {
-            "value": "1"
+        "disks_vms_vms_1_OsDisk_1_da877adc95fc46f8a112d76fe30cb835_externalid": {
+            "value": null
         }
     }
 }
